@@ -51,7 +51,10 @@ public sealed class CalculatorEngine
         _history.Clear();
     }
 
-    
+    public void AddToHistory(string entry)
+    {
+        _history.Add(entry);
+    }
     public void SetLogging(bool enabled)
     {
         _operationFactory.EnableLogging = enabled;

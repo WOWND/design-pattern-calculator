@@ -1,0 +1,325 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:DesignPatternCalculator.Avalonia.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="850" d:DesignHeight="650"
+        x:Class="DesignPatternCalculator.Avalonia.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Design Pattern Calculator - Avalonia"
+        Width="850" Height="650"
+        MinWidth="750" MinHeight="550"
+        Background="#667eea">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <Grid ColumnDefinitions="2*,*" Margin="20">
+        <!-- Calculator Panel -->
+        <Border Grid.Column="0" Background="#2d2d2d" CornerRadius="20" Padding="20" Margin="0,0,10,0">
+            <Grid RowDefinitions="Auto,Auto,Auto,*">
+                <!-- Display -->
+                <Border Grid.Row="0" Background="#1a1a1a" CornerRadius="10" Padding="15" Margin="0,0,0,15">
+                    <StackPanel>
+                        <TextBlock Text="{Binding Expression}"
+                                   Foreground="#888888"
+                                   FontSize="16"
+                                   HorizontalAlignment="Right"
+                                   TextWrapping="Wrap"
+                                   MinHeight="24"/>
+                        <TextBlock Text="{Binding Result}"
+                                   Foreground="White"
+                                   FontSize="36"
+                                   FontWeight="Light"
+                                   HorizontalAlignment="Right"
+                                   Margin="0,10,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Options -->
+                <Grid Grid.Row="1" ColumnDefinitions="*,Auto" Margin="0,0,0,8">
+                    <CheckBox IsChecked="{Binding IsLoggingEnabled}"
+                              Content="Enable Logging"
+                              Foreground="#aaaaaa"
+                              FontSize="14"/>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="3">
+                        <Button Content="Undo"
+                                Command="{Binding UndoCommand}"
+                                IsEnabled="{Binding CanUndo}"
+                                Background="#666666"
+                                Foreground="White"
+                                Padding="10,6"/>
+                        <Button Content="Redo"
+                                Command="{Binding RedoCommand}"
+                                IsEnabled="{Binding CanRedo}"
+                                Background="#666666"
+                                Foreground="White"
+                                Padding="10,6"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Function Buttons -->
+                <Grid Grid.Row="2" ColumnDefinitions="*,*,*,*,*,*,*" Margin="0,0,0,8">
+                    <Button Grid.Column="0" Content="sin"
+                            Command="{Binding FunctionClickCommand}"
+                            CommandParameter="sin"
+                            Background="#5c6bc0" Foreground="White"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            Margin="1" FontSize="13"/>
+                    <Button Grid.Column="1" Content="cos"
+                            Command="{Binding FunctionClickCommand}"
+                            CommandParameter="cos"
+                            Background="#5c6bc0" Foreground="White"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            Margin="1" FontSize="13"/>
+                    <Button Grid.Column="2" Content="tan"
+                            Command="{Binding FunctionClickCommand}"
+                            CommandParameter="tan"
+                            Background="#5c6bc0" Foreground="White"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            Margin="1" FontSize="13"/>
+                    <Button Grid.Column="3" Content="sqrt"
+                            Command="{Binding FunctionClickCommand}"
+                            CommandParameter="sqrt"
+                            Background="#5c6bc0" Foreground="White"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            Margin="1" FontSize="13"/>
+                    <Button Grid.Column="4" Content="log"
+                            Command="{Binding FunctionClickCommand}"
+                            CommandParameter="log"
+                            Background="#5c6bc0" Foreground="White"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            Margin="1" FontSize="13"/>
+                    <Button Grid.Column="5" Content="ln"
+                            Command="{Binding FunctionClickCommand}"
+                            CommandParameter="ln"
+                            Background="#5c6bc0" Foreground="White"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            Margin="1" FontSize="13"/>
+                    <Button Grid.Column="6" Content="abs"
+                            Command="{Binding FunctionClickCommand}"
+                            CommandParameter="abs"
+                            Background="#5c6bc0" Foreground="White"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            Margin="1" FontSize="13"/>
+                </Grid>
+
+                <!-- Main Buttons -->
+                <Grid Grid.Row="3" RowDefinitions="*,*,*,*,*" ColumnDefinitions="*,*,*,*,*">
+                    <!-- Row 0 -->
+                    <Button Grid.Row="0" Grid.Column="0" Content="("
+                            Command="{Binding ParenthesisClickCommand}"
+                            CommandParameter="("
+                            Background="#8e8e93" Foreground="White"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            Margin="1" FontSize="18"/>
+                    <Button Grid.Row="0" Grid.Column="1" Content=")"
+                            Command="{Binding ParenthesisClickCommand}"
+                            CommandParameter=")"
+                            Background="#8e8e93" Foreground="White"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            Margin="1" FontSize="18"/>
+                    <Button Grid.Row="0" Grid.Column="2" Content="⌫"
+                            Command="{Binding BackspaceCommand}"
+                            Background="#404040" Foreground="White"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            Margin="1" FontSize="18"/>
+                    <Button Grid.Row="0" Grid.Column="3" Content="%"
+                            Command="{Binding OperatorClickCommand}"
+                            CommandParameter="%"
+                            Background="#ff9500" Foreground="White"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            Margin="1" FontSize="18"/>
+                    <Button Grid.Row="0" Grid.Column="4" Content="/"
+                            Command="{Binding OperatorClickCommand}"
+                            CommandParameter="/"
+                            Background="#ff9500" Foreground="White"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            Margin="1" FontSize="18"/>
+
+                    <!-- Row 1 -->
+                    <Button Grid.Row="1" Grid.Column="0" Content="7"
+                            Command="{Binding NumberClickCommand}"
+                            CommandParameter="7"
+                            Background="#505050" Foreground="White"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            Margin="1" FontSize="18"/>
+                    <Button Grid.Row="1" Grid.Column="1" Content="8"
+                            Command="{Binding NumberClickCommand}"
+                            CommandParameter="8"
+                            Background="#505050" Foreground="White"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            Margin="1" FontSize="18"/>
+                    <Button Grid.Row="1" Grid.Column="2" Content="9"
+                            Command="{Binding NumberClickCommand}"
+                            CommandParameter="9"
+                            Background="#505050" Foreground="White"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            Margin="1" FontSize="18"/>
+                    <Button Grid.Row="1" Grid.Column="3" Content="^"
+                            Command="{Binding OperatorClickCommand}"
+                            CommandParameter="^"
+                            Background="#ff9500" Foreground="White"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            Margin="1" FontSize="18"/>
+                    <Button Grid.Row="1" Grid.Column="4" Content="×"
+                            Command="{Binding OperatorClickCommand}"
+                            CommandParameter="*"
+                            Background="#ff9500" Foreground="White"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            Margin="1" FontSize="18"/>
+
+                    <!-- Row 2 -->
+                    <Button Grid.Row="2" Grid.Column="0" Content="4"
+                            Command="{Binding NumberClickCommand}"
+                            CommandParameter="4"
+                            Background="#505050" Foreground="White"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            Margin="1" FontSize="18"/>
+                    <Button Grid.Row="2" Grid.Column="1" Content="5"
+                            Command="{Binding NumberClickCommand}"
+                            CommandParameter="5"
+                            Background="#505050" Foreground="White"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            Margin="1" FontSize="18"/>
+                    <Button Grid.Row="2" Grid.Column="2" Content="6"
+                            Command="{Binding NumberClickCommand}"
+                            CommandParameter="6"
+                            Background="#505050" Foreground="White"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            Margin="1" FontSize="18"/>
+                    <Button Grid.Row="2" Grid.Column="3" Content="-"
+                            Command="{Binding OperatorClickCommand}"
+                            CommandParameter="-"
+                            Background="#ff9500" Foreground="White"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            Margin="1" FontSize="18"/>
+                    <Button Grid.Row="2" Grid.Column="4" Content="+"
+                            Command="{Binding OperatorClickCommand}"
+                            CommandParameter="+"
+                            Background="#ff9500" Foreground="White"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            Margin="1" FontSize="18"/>
+
+                    <!-- Row 3 -->
+                    <Button Grid.Row="3" Grid.Column="0" Content="1"
+                            Command="{Binding NumberClickCommand}"
+                            CommandParameter="1"
+                            Background="#505050" Foreground="White"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            Margin="1" FontSize="18"/>
+                    <Button Grid.Row="3" Grid.Column="1" Content="2"
+                            Command="{Binding NumberClickCommand}"
+                            CommandParameter="2"
+                            Background="#505050" Foreground="White"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            Margin="1" FontSize="18"/>
+                    <Button Grid.Row="3" Grid.Column="2" Content="3"
+                            Command="{Binding NumberClickCommand}"
+                            CommandParameter="3"
+                            Background="#505050" Foreground="White"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            Margin="1" FontSize="18"/>
+                    <Button Grid.Row="3" Grid.Column="3" Content="+/-"
+                            Command="{Binding ToggleSignCommand}"
+                            Background="#404040" Foreground="White"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            Margin="1" FontSize="14"/>
+                    <Button Grid.Row="3" Grid.Column="4" Content="."
+                            Command="{Binding DecimalClickCommand}"
+                            Background="#505050" Foreground="White"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            Margin="1" FontSize="18"/>
+
+                    <!-- Row 4 -->
+                    <Button Grid.Row="4" Grid.Column="0" Content="C"
+                            Command="{Binding ClearCommand}"
+                            Background="#ff3b30" Foreground="White"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            Margin="1" FontSize="18"/>
+                    <Button Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Content="0"
+                            Command="{Binding NumberClickCommand}"
+                            CommandParameter="0"
+                            Background="#505050" Foreground="White"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            Margin="1" FontSize="18"/>
+                    <Button Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2" Content="="
+                            Command="{Binding CalculateCommand}"
+                            Background="#34c759" Foreground="White"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            Margin="1" FontSize="20" FontWeight="Bold"/>
+                </Grid>
+            </Grid>
+        </Border>
+
+        <!-- History Panel -->
+        <Border Grid.Column="1" Background="White" CornerRadius="20" Padding="15">
+            <Grid RowDefinitions="Auto,*,Auto">
+                <TextBlock Grid.Row="0" Text="History"
+                           FontSize="20" FontWeight="SemiBold"
+                           Foreground="#333333"
+                           Margin="0,0,0,15"/>
+
+                <ListBox Grid.Row="1"
+                         ItemsSource="{Binding History}"
+                         Background="Transparent"
+                         BorderThickness="0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="#f5f5f5"
+                                    CornerRadius="8"
+                                    Padding="10"
+                                    Margin="0,0,0,8">
+                                <TextBlock Text="{Binding}"
+                                           TextWrapping="Wrap"
+                                           FontSize="13"
+                                           Foreground="#555555"/>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <Button Grid.Row="2"
+                        Content="Clear History"
+                        Command="{Binding ClearHistoryCommand}"
+                        Background="#8e8e93"
+                        Foreground="White"
+                        HorizontalAlignment="Stretch"
+                        Padding="12"
+                        Margin="0,10,0,0"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
