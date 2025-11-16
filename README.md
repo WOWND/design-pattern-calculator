@@ -6,23 +6,31 @@
 
 -  기본 연산 (덧셈, 뺄셈, 곱셈, 나눗셈)
 -  고급 연산 (거듭제곱, 나머지)
+-  단항 연산 (sin, cos, tan, sqrt, log, ln, abs)
+-  괄호를 사용한 복잡한 수식 지원
 -  수식 표시 및 계산
--  음수 지원
+-  음수 지원 (단항 마이너스)
 -  계산 이력 관리
+-  실행 취소/다시 실행 (Undo/Redo)
+-  계산 결과 캐싱 (LRU 캐시)
 -  계산 과정 로깅
 -  초기화 기능
+-  GUI 지원 (WebView2, Avalonia UI)
 
 
 
 ### 프로젝트 구조
 
-1. **Core**: 계산기 핵심 기능과 인터페이스
-2. **Expressions**: 수식 관련 기능들
-3. **Operations**: 연산 관련 기능들
-4. **UI**: 계산기 UI
+1. **DesignPatternCalculator**
+   - **Core**: 계산기 핵심 기능, 인터페이스, 캐시
+   - **Expressions**: 수식 관련 기능들
+   - **Operations**: 연산 관련 기능들
+   - **Calculator**: 퍼사드 패턴을 통한 간단한 인터페이스
+   - **Memento**: 실행 취소/다시 실행을 위한 상태 저장
+2. **DesignPatternCalculator.ConsoleUI**: 콘솔 기반 UI
+3. **DesignPatternCalculator.Avalonia**: Avalonia기반 GUI
 
 ## 적용된 디자인 패턴
-
 
 #### 팩토리 메서드 패턴
 
@@ -75,6 +83,7 @@
 **적용 방법**:
 - `OperationDecorator` 추상 클래스로 기본 데코레이터 정의
 - `LoggingOperationDecorator`로 로깅 기능 추가
+- `CachingCalculatorDecorator`로 캐싱 기능 추가
 
 ---
 
@@ -83,7 +92,29 @@
 **목적**: 복잡한 서브시스템을 간단한 인터페이스로 제공합니다.
 
 **적용 방법**:
-- Builder, Factory, Singleton 등 여러 패턴을 내부에서 사용
-- 사용자에게는 간단한 메서드만 노출
+- Builder, Factory, Singleton, Memento 등 여러 패턴을 내부에서 사용
+- 사용자에게는 간단한 메서드만 노출 (CalculateExpression, Undo, Redo 등)
 - 복잡한 내부 구현을 숨김
+
+---
+
+#### 메멘토 패턴
+
+**목적**: 계산 상태를 저장하고 복원하여 실행 취소/다시 실행 기능을 제공합니다.
+
+**적용 방법**:
+- `CalculatorMemento`로 수식과 결과 상태 캡슐화
+- `CalculatorCaretaker`로 메멘토 히스토리 관리
+- Undo/Redo 스택을 통한 상태 탐색
+
+---
+
+#### 어댑터 패턴
+
+**목적**: 기존 수학 라이브러리를 계산기 인터페이스에 맞게 변환합니다.
+
+**적용 방법**:
+- `IUnaryOperation` 인터페이스를 통해 다양한 수학 함수 통합
+- Math 클래스의 정적 메서드를 래핑하여 일관된 인터페이스 제공
+- 삼각함수에서 도(degree)를 라디안(radian)으로 자동 변환
 
